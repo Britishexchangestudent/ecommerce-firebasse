@@ -1,4 +1,11 @@
-export { default as Navbar } from './Nav/Navbar';
-export { default as Footer } from './Footer/Footer';
-export { default as Perks } from './Home/Perks';
-export { default as StoreFrontImages } from './Home/StoreFrontImages';
+export { default as Navbar } from "./Nav/Navbar";
+export { default as Footer } from "./Footer/Footer";
+export { default as Perks } from "./Home/Perks";
+export { default as StoreFrontImages } from "./Home/StoreFrontImages";
+export { default as Loader } from "./loader/Loader";
+export { default as Tabs } from "./admin/Tabs/Tabs";
+export { default as AddProducts } from "./admin/AddProducts/AddProducts";
+export { default as Home } from "./admin/Home/Home";
+export { default as Stats } from "./admin/Home/Stats";
+export { default as Orders } from "./admin/Orders/Orders";
+export { default as ViewProducts } from "./admin/ViewProducts/ViewProducts";

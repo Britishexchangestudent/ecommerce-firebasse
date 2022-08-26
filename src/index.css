@@ -14,12 +14,19 @@
   --card-shadow: 0px 20px 100px -10px rgba(66, 71, 91, 0.1);
 }
 
-html, body{
+html,
+body {
   overflow-x: hidden;
-  }
+}
 
 * {
   scroll-behavior: smooth;
+}
+
+@layer components {
+  .add-product-input {
+    @apply mt-1 block py-2 px-3 w-full  rounded-md shadow-sm  sm:text-sm focus:ring-blue-500 focus:border-blue-500 bg-[#E8F0FE];
+  }
 }
 
 .text-gradient {

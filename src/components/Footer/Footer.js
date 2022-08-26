@@ -106,7 +106,7 @@ function Footer() {
           ))}
         </div>
         <p className="mt-8 text-center text-base text-gray-400 cursor-default">
-          &copy; 2022 onlineShop, Inc. All rights reserved.
+          &copy; 2022 dansSHoop, Inc. All rights reserved.
         </p>
       </div>
     </footer>
