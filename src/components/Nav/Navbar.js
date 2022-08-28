@@ -1,9 +1,6 @@
 import { useEffect, useState } from "react";
 
-import {
-  AiOutlineMenu,
-  AiOutlineClose,
-} from "react-icons/ai";
+import { AiOutlineMenu, AiOutlineClose } from "react-icons/ai";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import NavLink from "./NavLink";
@@ -74,6 +71,8 @@ function Navbar() {
       logout();
     } else if (navType === "Home") {
       navigator("/");
+    } else if (navType === "Products") {
+      navigator("/products");
     } else if (navType === "Admin") {
       navigator("/admin/home");
     } else if (navType === "Orders") {
@@ -126,6 +125,12 @@ function Navbar() {
             setActive={setActive}
             navigateTo={navigateTo}
             title="Orders"
+          />
+          <NavLink
+            active={active}
+            setActive={setActive}
+            navigateTo={navigateTo}
+            title="Products"
           />
           {isLoggedIn && (
             <NavLink
@@ -183,6 +188,12 @@ function Navbar() {
                 setActive={setActive}
                 navigateTo={navigateTo}
                 title="Orders"
+              />
+              <NavLinkMobile
+                active={active}
+                setActive={setActive}
+                navigateTo={navigateTo}
+                title="Products"
               />
               {!isLoggedIn && (
                 <NavLinkMobile

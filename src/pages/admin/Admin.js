@@ -24,7 +24,7 @@ function Admin() {
           <Routes>
             <Route path="home" element={<Home />} />
             <Route path="view-products" element={<ViewProducts />} />
-            <Route path="add-product" element={<AddProducts />} />
+            <Route path="add-product/:id" element={<AddProducts />} />
             <Route path="view-orders" element={<Orders />} />
           </Routes>
         </div>

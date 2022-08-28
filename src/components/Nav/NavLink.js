@@ -7,8 +7,8 @@ function NavLink({ active, setActive, navigateTo, title }) {
         active === title ? "text-primaryPurpleHover" : "text-primaryText"
       } ${title !== "Cart" ? "mr-10" : "mr-0"}`}
       onClick={() => {
-        setActive(title);
         navigateTo(title);
+        setActive(title);
       }}
     >
       <p>{title}</p>

@@ -5,3 +5,4 @@ export { default as Cart } from "./cart/Cart";
 export { default as OrderHistory } from "./orderHistory/OrderHistory";
 export { default as Login } from "./auth/Login";
 export { default as NotFound } from "./notFound/NotFound";
+export { default as Products } from "./products/Products";

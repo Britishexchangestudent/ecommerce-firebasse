@@ -4,67 +4,46 @@ import { toast } from "react-toastify";
 import { db } from "../../../firebase/config";
 import { getStorage, ref, deleteObject } from "firebase/storage";
 import ClipLoader from "react-spinners/ClipLoader";
-import {
-  collection,
-  query,
-  onSnapshot,
-  orderBy,
-  doc,
-  deleteDoc,
-} from "firebase/firestore";
+import { doc, deleteDoc } from "firebase/firestore";
 import { AiFillEdit, AiFillDelete } from "react-icons/ai";
 import Search2 from "../Search/Search2";
 import Modal from "../../Modal/Modal";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   selectProducts,
   STORE_PRODUCTS,
 } from "../../../redux/slice/productSlice";
+import { Link } from "react-router-dom";
+import useFetchCollection from "../../../hooks/useFetchCollection";
+import Loader from "../../loader/Loader";
 
 function ViewProducts() {
-  const [products, setProducts] = useState([]);
+  const { data, loading } = useFetchCollection("products");
+
   const [showSearch, setShowSearch] = useState(false);
-  const [loading, setLoading] = useState(false);
+
   const [productImg, setProductImg] = useState("");
   const [productId, setProductId] = useState("");
   const [showModal, setShowModal] = useState(false);
 
+  const [deleteLoader, setDeleteLoader] = useState(false);
+
   const dispatch = useDispatch();
 
-  const getProducts = () => {
-    setLoading(true);
-    try {
-      const productsRef = collection(db, "products");
-
-      const q = query(productsRef, orderBy("createdAt", "desc"));
-
-      onSnapshot(q, (snapshot) => {
-        const allProducts = snapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-        }));
-
-        setProducts(allProducts);
-        setLoading(false);
-        dispatch(
-          STORE_PRODUCTS({
-            products: allProducts,
-          })
-        );
-      });
-    } catch (error) {
-      toast.error(error.message);
-    }
-  };
+  const products = useSelector(selectProducts);
 
   useEffect(() => {
-    getProducts();
-  }, []);
+    dispatch(
+      STORE_PRODUCTS({
+        products: data,
+      })
+    );
+  }, [data, dispatch]);
 
   const storage = getStorage();
 
   const deleteProduct = async (id, image) => {
-    setLoading(true);
+    setDeleteLoader(true);
     try {
       setTimeout(() => {
         deleteDoc(doc(db, "products", id));
@@ -72,13 +51,13 @@ function ViewProducts() {
         const storageRef = ref(storage, image);
 
         deleteObject(storageRef);
-        setLoading(false);
+        setDeleteLoader(false);
         setShowModal(false);
         toast.success("Product successfully deleted");
       }, 2000);
     } catch (error) {
       toast.error(error.message);
-      setLoading(false);
+      setDeleteLoader(false);
     }
   };
 
@@ -104,6 +83,8 @@ function ViewProducts() {
         />
       )}
 
+      {loading && <Loader />}
+
       {showModal && (
         <Modal title="Delete Product">
           <div className="flex justify-around px-4 mb-3 mt-10">
@@ -123,8 +104,8 @@ function ViewProducts() {
                 deleteProduct(productId, productImg);
               }}
             >
-              {loading ? (
-                <ClipLoader color="#fff" loading={loading} size={20} />
+              {deleteLoader ? (
+                <ClipLoader color="#fff" loading={deleteLoader} size={20} />
               ) : (
                 "Delete"
               )}
@@ -225,7 +206,9 @@ function ViewProducts() {
                             </td>
                             <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                               <div className=" flex items-center gap-3">
-                                <AiFillEdit className="text-gray-600 hover:text-gray-900 h-6 w-6 cursor-pointer duration-200" />
+                                <Link to={`/admin/add-product/${product.id}`}>
+                                  <AiFillEdit className="text-gray-600 hover:text-gray-900 h-6 w-6 cursor-pointer duration-200" />
+                                </Link>
                                 <AiFillDelete
                                   className="text-red-400 hover:text-red-600 h-6 w-6 cursor-pointer duration-200"
                                   onClick={() => {

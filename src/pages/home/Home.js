@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import { StoreFrontImages, Perks, Navbar, Footer } from "../../components";
 
 import { collections, perks, trendingProducts } from "../../constants";
@@ -54,9 +55,11 @@ function Home() {
                 Summer Sale
               </h1>
               <div className="mt-4 sm:mt-6">
-                <p className="inline-block bg-primaryPurple border border-transparent rounded-md py-3 px-8 font-medium text-primaryTextLight hover:bg-indigo-700 duration-200 cursor-pointer">
-                  Shop All
-                </p>
+                <Link to="/products">
+                  <p className="inline-block bg-primaryPurple border border-transparent rounded-md py-3 px-8 font-medium text-primaryTextLight hover:bg-indigo-700 duration-200 cursor-pointer">
+                    Shop All
+                  </p>
+                </Link>
               </div>
             </div>
           </div>
