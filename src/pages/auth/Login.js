@@ -25,6 +25,7 @@ function Login() {
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
 
+
   const navigator = useNavigate();
 
   const handleLogin = (e) => {
@@ -34,7 +35,8 @@ function Login() {
     signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         // Signed in
-        // const user = userCredential.user;
+        const user = userCredential.user;
+        console.log(`user`, user);
 
         setTimeout(() => {
           setLoading(false);
@@ -55,7 +57,8 @@ function Login() {
   const googleSignIn = () => {
     signInWithPopup(auth, provider)
       .then((result) => {
-        // const user = result.user;
+        const user = result.user;
+        console.log(`user`, user);
         toast.success("Logged in successfully.");
         navigator("/");
         // ...

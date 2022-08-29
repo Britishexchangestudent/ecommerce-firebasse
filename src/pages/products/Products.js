@@ -6,11 +6,11 @@ function Products() {
   return (
     <>
       <main>
-        <div className="flex justify-center items-center sm:px-16 px-6">
+        {/* <div className="flex justify-center items-center sm:px-16 px-6">
           <div className="xl:max-w-[1280px] w-full">
             <Navbar />
           </div>
-        </div>
+        </div> */}
 
         <ProductFilter />
         

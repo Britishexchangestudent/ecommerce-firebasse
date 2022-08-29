@@ -34,8 +34,10 @@ function Navbar() {
           const u1 = user.email.split("@");
           const tmpUserName = u1[0];
           setUsername(tmpUserName);
+
         } else {
           setUsername(user.displayName);
+
         }
 
         dispatch(
@@ -43,7 +45,9 @@ function Navbar() {
             email: user.email,
             userName: user.displayName ? user.displayName : username,
             userId: user.uid,
-          })
+          }),
+
+
         );
       } else {
         setUsername("");

@@ -1,21 +1,8 @@
-import { useEffect } from "react";
-import useFetchCollection from "../../hooks/useFetchCollection";
-import { useDispatch, useSelector } from "react-redux";
-import { selectProducts, STORE_PRODUCTS } from "../../redux/slice/productSlice";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
-export default function Product() {
-  const { data, loading } = useFetchCollection("products");
-  const dispatch = useDispatch();
-
-  const products = useSelector(selectProducts);
-
-  useEffect(() => {
-    dispatch(
-      STORE_PRODUCTS({
-        products: data,
-      })
-    );
-  }, [data, dispatch]);
+export default function Product({ products }) {
+  const navigate = useNavigate();
 
   return (
     <div className="bg-white">
@@ -27,6 +14,9 @@ export default function Product() {
             <div
               key={product.id}
               className="group relative bg-white border border-gray-200 rounded-lg flex flex-col overflow-hidden cursor-pointer"
+              onClick={() => {
+                navigate(`/product/${product.id}`);
+              }}
             >
               <div className="aspect-w-3 aspect-h-4 bg-transparent group-hover:opacity-75 duration-300 sm:aspect-none sm:h-96 cursor-pointer border-b border-gray-100">
                 <img

@@ -6,3 +6,4 @@ export { default as OrderHistory } from "./orderHistory/OrderHistory";
 export { default as Login } from "./auth/Login";
 export { default as NotFound } from "./notFound/NotFound";
 export { default as Products } from "./products/Products";
+export { default as ProductDetails } from "./products/ProductDetails";

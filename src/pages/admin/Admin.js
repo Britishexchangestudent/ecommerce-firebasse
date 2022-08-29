@@ -13,11 +13,11 @@ function Admin() {
   return (
     <>
       <div className="h-full w-full">
-        <div className="flex justify-center items-center sm:px-16 px-6">
+        {/* <div className="flex justify-center items-center sm:px-16 px-6">
           <div className="xl:max-w-[1280px] w-full">
             <Navbar />
           </div>
-        </div>
+        </div> */}
 
         <div className="  sm:flex sm:px-16 px-6 sm:py-10 py-6 ">
           <Tabs />

@@ -36,10 +36,10 @@ function Search2({ showSearch, setShowSearch, products }) {
     >
       <Dialog
         onClose={setShowSearch}
-        className="fixed inset-0 p-4 pt-[25vh] overflow-y-auto"
+        className="fixed inset-0 p-4 pt-[25vh] overflow-y-auto z-10"
       >
         <Transition.Child
-          enter="ease-out duration-400"
+          enter="ease-out duration-500"
           enterFrom="opacity-0"
           enterTo="opacity-100"
           leave="ease-in duration-200"
@@ -49,7 +49,7 @@ function Search2({ showSearch, setShowSearch, products }) {
           <Dialog.Overlay className="fixed inset-0 bg-gray-500/50 transition-opacity" />
         </Transition.Child>
         <Transition.Child
-          enter="ease-out duration-1000"
+          enter="ease-out duration-500"
           enterFrom="opacity-0 scale-0"
           enterTo="opacity-100 scale-100"
           leave="ease-in duration-200"
@@ -60,7 +60,7 @@ function Search2({ showSearch, setShowSearch, products }) {
             as="div"
             className="bg-gray-100 max-w-2xl mx-auto shadow-lg relative rounded-lg ring-1 ring-black/5"
             onChange={(product) => {
-              navigate(`/admin/product/${product.id}`);
+              navigate(`/product/${product.id}`);
             }}
           >
             <div className="flex items-center px-4">

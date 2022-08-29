@@ -75,13 +75,13 @@ function ViewProducts() {
 
   return (
     <>
-      {showSearch && (
+      
         <Search2
           showSearch={showSearch}
           setShowSearch={setShowSearch}
           products={products}
         />
-      )}
+
 
       {loading && <Loader />}
 
