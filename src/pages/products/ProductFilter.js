@@ -30,6 +30,11 @@ import { selectProducts, STORE_PRODUCTS } from "../../redux/slice/productSlice";
 import { useDispatch, useSelector } from "react-redux";
 import useFetchCollection from "../../hooks/useFetchCollection";
 import { Loader } from "../../components";
+import {
+  selectFilteredProducts,
+  SORT_PRODUCTS,
+} from "../../redux/slice/filterSlice";
+import { motion } from "framer-motion";
 
 const sortOptions = [
   { name: "Latest", href: "#", current: true, value: "latest" },
@@ -100,6 +105,12 @@ function classNames(...classes) {
 export default function ProductFilter() {
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
 
+  const [sort, setSort] = useState("latest");
+
+  const filteredProducts = useSelector(selectFilteredProducts);
+
+  console.log(`filteredProducts`, filteredProducts);
+
   const [showSearch, setShowSearch] = useState(false);
   const { data, loading } = useFetchCollection("products");
   const dispatch = useDispatch();
@@ -125,6 +136,10 @@ export default function ProductFilter() {
       window.removeEventListener("keydown", onKeydown);
     };
   }, [showSearch]);
+
+  useEffect(() => {
+    dispatch(SORT_PRODUCTS({ products, sort }));
+  }, [dispatch, products, sort]);
 
   return (
     <>
@@ -311,18 +326,21 @@ export default function ProductFilter() {
                         {sortOptions.map((option) => (
                           <Menu.Item key={option.name} value={option.value}>
                             {({ active }) => (
-                              <a
-                                href={option.href}
+                              <p
+                                onClick={() => {
+                                  setSort(option.value);
+                                  console.log("1 ", option);
+                                }}
                                 className={classNames(
-                                  option.current
+                                  option.value === sort
                                     ? "font-medium text-gray-900"
                                     : "text-gray-500",
                                   active ? "bg-gray-100" : "",
-                                  "block px-4 py-2 text-sm"
+                                  "block px-4 py-2 text-sm cursor-pointer"
                                 )}
                               >
                                 {option.name}
-                              </a>
+                              </p>
                             )}
                           </Menu.Item>
                         ))}
@@ -429,12 +447,18 @@ export default function ProductFilter() {
                 </form>
 
                 {/* Product grid */}
-                <div className="lg:col-span-3">
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  layout
+                  className="lg:col-span-3"
+                >
                   {/* Replace with your content */}
                   {/* <div className="border-4 border-dashed border-gray-200 rounded-lg h-96 lg:h-full" /> */}
                   {/* /End replace */}
-                  <Product products={products} />
-                </div>
+                  {filteredProducts && <Product products={filteredProducts} />}
+                </motion.div>
               </div>
             </section>
           </main>
