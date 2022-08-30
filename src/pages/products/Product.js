@@ -1,5 +1,4 @@
 import { motion } from "framer-motion";
-import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 export default function Product({ products }) {
@@ -14,12 +13,14 @@ export default function Product({ products }) {
           {products?.map((product) => (
             <div
               key={product?.id}
-              className="group relative bg-white border border-gray-200 rounded-lg flex flex-col overflow-hidden cursor-pointer"
-              onClick={() => {
-                navigate(`/product/${product?.id}`);
-              }}
+              className="relative bg-white border border-gray-200 shadow-md rounded-lg flex flex-col overflow-hidden cursor-pointer"
             >
-              <div className="aspect-w-3 aspect-h-4 bg-transparent group-hover:opacity-75 duration-300 sm:aspect-none sm:h-96 cursor-pointer border-b border-gray-100">
+              <div
+                className="aspect-w-3 aspect-h-4 bg-transparent hover:opacity-75 duration-300 sm:aspect-none sm:h-96  border-b border-gray-100"
+                onClick={() => {
+                  navigate(`/product/${product?.id}`);
+                }}
+              >
                 <img
                   src={product?.imageURL}
                   alt="imgg"
@@ -27,11 +28,13 @@ export default function Product({ products }) {
                 />
               </div>
               <div className="flex-1 p-4 space-y-2 flex flex-col">
-                <h3 className="text-sm font-medium text-gray-900  line-clamp-1">
-                  <p className="group-hover:underline ">
-                    <span aria-hidden="true" className="absolute inset-0" />
-                    {product?.name}
-                  </p>
+                <h3
+                  className="text-sm font-medium text-gray-900  line-clamp-1"
+                  onClick={() => {
+                    navigate(`/product/${product?.id}`);
+                  }}
+                >
+                  <p className="hover:underline">{product?.name}</p>
                 </h3>
                 <p className="text-sm text-gray-500 line-clamp-3">
                   {product?.desc}
@@ -43,6 +46,14 @@ export default function Product({ products }) {
                   <p className="text-base font-medium text-gray-900">
                     ${product?.price}
                   </p>
+                  <div className="mt-4">
+                    <button
+                      type="submit"
+                      className="w-full bg-indigo-600 shadow-lg border border-transparent rounded-md py-3 px-8 z-10 flex items-center justify-center text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-50 focus:ring-indigo-500"
+                    >
+                      Add to bag
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>

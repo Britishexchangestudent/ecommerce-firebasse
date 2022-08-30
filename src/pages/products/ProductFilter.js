@@ -31,6 +31,7 @@ import { useDispatch, useSelector } from "react-redux";
 import useFetchCollection from "../../hooks/useFetchCollection";
 import { Loader } from "../../components";
 import {
+  FILTER_BY_CATEGORY,
   selectFilteredProducts,
   SORT_PRODUCTS,
 } from "../../redux/slice/filterSlice";
@@ -53,13 +54,9 @@ const sortOptions = [
   { name: "A-Z", href: "#", current: false, value: "a-z" },
   { name: "Z-A", href: "#", current: false, value: "z-a" },
 ];
-const subCategories = [
-  { name: "Totes", href: "#" },
-  { name: "Backpacks", href: "#" },
-  { name: "Travel Bags", href: "#" },
-  { name: "Hip Bags", href: "#" },
-  { name: "Laptop Sleeves", href: "#" },
-];
+
+const sideFiltersTitle = ["Category", "Brand", "Price"];
+
 const filters = [
   {
     id: "category",
@@ -106,6 +103,7 @@ export default function ProductFilter() {
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
 
   const [sort, setSort] = useState("latest");
+  const [category, setCategory] = useState("All");
 
   const filteredProducts = useSelector(selectFilteredProducts);
 
@@ -116,6 +114,18 @@ export default function ProductFilter() {
   const dispatch = useDispatch();
 
   const products = useSelector(selectProducts);
+
+  const allCategories = [
+    "All",
+    ...new Set(products.map((product) => product.category)),
+  ];
+
+  console.log(`allCategories`, allCategories);
+
+  const filterProducts = (cat) => {
+    setCategory(cat);
+    dispatch(FILTER_BY_CATEGORY({ products, category: cat }));
+  };
 
   useEffect(() => {
     dispatch(
@@ -140,6 +150,10 @@ export default function ProductFilter() {
   useEffect(() => {
     dispatch(SORT_PRODUCTS({ products, sort }));
   }, [dispatch, products, sort]);
+
+  const onChangeCheckbox = (value) => {
+    setCategory(value);
+  };
 
   return (
     <>
@@ -329,7 +343,6 @@ export default function ProductFilter() {
                               <p
                                 onClick={() => {
                                   setSort(option.value);
-                                  console.log("1 ", option);
                                 }}
                                 className={classNames(
                                   option.value === sort
@@ -377,10 +390,9 @@ export default function ProductFilter() {
                 <form className="hidden lg:block">
                   <h3 className="sr-only">Categories</h3>
 
-                  {filters.map((section) => (
+                  {sideFiltersTitle.map((title) => (
                     <Disclosure
                       as="div"
-                      key={section.id}
                       className="border-b border-gray-200 py-6"
                     >
                       {({ open }) => (
@@ -388,7 +400,7 @@ export default function ProductFilter() {
                           <h3 className="-my-3 flow-root">
                             <Disclosure.Button className="py-3 bg-white w-full flex items-center justify-between text-sm text-gray-400 hover:text-gray-500">
                               <span className="font-medium text-gray-900">
-                                {section.name}
+                                {title}
                               </span>
                               <span className="ml-6 flex items-center">
                                 {open ? (
@@ -415,29 +427,32 @@ export default function ProductFilter() {
                             leaveTo="transform scale-95 opacity-0"
                           >
                             <Disclosure.Panel className="pt-6" static>
-                              <div className="space-y-4">
-                                {section.options.map((option, optionIdx) => (
-                                  <div
-                                    key={option.value}
-                                    className="flex items-center"
-                                  >
-                                    <input
-                                      id={`filter-${section.id}-${optionIdx}`}
-                                      name={`${section.id}[]`}
-                                      defaultValue={option.value}
-                                      type="checkbox"
-                                      defaultChecked={option.checked}
-                                      className="h-4 w-4 border-gray-300 rounded text-indigo-600 focus:ring-indigo-500"
-                                    />
-                                    <label
-                                      htmlFor={`filter-${section.id}-${optionIdx}`}
-                                      className="ml-3 text-sm text-gray-600"
+                              {title === "Category" && (
+                                <div className="space-y-2">
+                                  {allCategories.map((categoryTitle, i) => (
+                                    <div
+                                      key={i}
+                                      className="flex items-center cursor-pointer hover:bg-gray-200 rounded-lg px-3 py-3 active:scale-95 duration-200 active:bg-gray-300"
+                                      onClick={() => {
+                                        filterProducts(categoryTitle);
+                                      }}
                                     >
-                                      {option.label}
-                                    </label>
-                                  </div>
-                                ))}
-                              </div>
+                                      <input
+                                        name={categoryTitle}
+                                        onChange={() =>
+                                          onChangeCheckbox(categoryTitle)
+                                        }
+                                        checked={categoryTitle === category}
+                                        type="checkbox"
+                                        className="h-4 w-4 border-gray-300 rounded text-indigo-600 focus:ring-indigo-500 cursor-pointer "
+                                      />
+                                      <label className="ml-3 text-sm text-gray-600 cursor-pointer ">
+                                        {categoryTitle}
+                                      </label>
+                                    </div>
+                                  ))}
+                                </div>
+                              )}
                             </Disclosure.Panel>
                           </Transition>
                         </>
@@ -454,9 +469,6 @@ export default function ProductFilter() {
                   layout
                   className="lg:col-span-3"
                 >
-                  {/* Replace with your content */}
-                  {/* <div className="border-4 border-dashed border-gray-200 rounded-lg h-96 lg:h-full" /> */}
-                  {/* /End replace */}
                   {filteredProducts && <Product products={filteredProducts} />}
                 </motion.div>
               </div>
