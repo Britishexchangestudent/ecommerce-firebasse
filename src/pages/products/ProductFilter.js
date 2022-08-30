@@ -1,19 +1,3 @@
-/*
-  This example requires Tailwind CSS v2.0+ 
-  
-  This example requires some changes to your config:
-  
-  ```
-  // tailwind.config.js
-  module.exports = {
-    // ...
-    plugins: [
-      // ...
-      require('@tailwindcss/forms'),
-    ],
-  }
-  ```
-*/
 import { Fragment, useEffect, useState } from "react";
 import { Dialog, Disclosure, Menu, Transition } from "@headlessui/react";
 import { XIcon } from "@heroicons/react/outline";
@@ -26,12 +10,18 @@ import {
 } from "@heroicons/react/solid";
 import Product from "./Product";
 import Search2 from "../../components/admin/Search/Search2";
-import { selectProducts, STORE_PRODUCTS } from "../../redux/slice/productSlice";
+import {
+  GET_PRICE_RANGE,
+  selectProducts,
+  STORE_PRODUCTS,
+} from "../../redux/slice/productSlice";
 import { useDispatch, useSelector } from "react-redux";
 import useFetchCollection from "../../hooks/useFetchCollection";
 import { Loader } from "../../components";
 import {
+  FILTER_BY_BRAND,
   FILTER_BY_CATEGORY,
+  FILTER_BY_PRICE,
   selectFilteredProducts,
   SORT_PRODUCTS,
 } from "../../redux/slice/filterSlice";
@@ -101,16 +91,16 @@ function classNames(...classes) {
 
 export default function ProductFilter() {
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
-
   const [sort, setSort] = useState("latest");
   const [category, setCategory] = useState("All");
+  const [brand, setBrand] = useState("All");
+  const [price, setPrice] = useState("under $50");
+  const [showSearch, setShowSearch] = useState(false);
 
   const filteredProducts = useSelector(selectFilteredProducts);
 
-  console.log(`filteredProducts`, filteredProducts);
-
-  const [showSearch, setShowSearch] = useState(false);
   const { data, loading } = useFetchCollection("products");
+
   const dispatch = useDispatch();
 
   const products = useSelector(selectProducts);
@@ -119,17 +109,48 @@ export default function ProductFilter() {
     "All",
     ...new Set(products.map((product) => product.category)),
   ];
+  const allBrands = [
+    "All",
+    ...new Set(products.map((product) => product.brand)),
+  ];
 
-  console.log(`allCategories`, allCategories);
+  const allPrice = [
+    { value: "all", label: "All" },
+    { value: "x<50", label: "under $50" },
+    { value: "50<x<100", label: "Between $50 and $100" },
+    { value: "100<x<500", label: "Between $100 and $500" },
+    { value: "500<x<1000", label: "Between $500 and $1000" },
+    { value: "1000<x", label: "over $1000" },
+  ];
 
   const filterProducts = (cat) => {
     setCategory(cat);
     dispatch(FILTER_BY_CATEGORY({ products, category: cat }));
   };
+  const filterBrands = (brands) => {
+    setBrand(brands);
+  };
+  const filterPrice = (priceTitle) => {
+    setPrice(priceTitle);
+  };
+
+  useEffect(() => {
+    dispatch(FILTER_BY_BRAND({ products, brand: brand }));
+  }, [dispatch, products, brand]);
+
+  useEffect(() => {
+    dispatch(FILTER_BY_PRICE({ products, price: price }));
+  }, [dispatch, products, price]);
 
   useEffect(() => {
     dispatch(
       STORE_PRODUCTS({
+        products: data,
+      })
+    );
+
+    dispatch(
+      GET_PRICE_RANGE({
         products: data,
       })
     );
@@ -153,6 +174,12 @@ export default function ProductFilter() {
 
   const onChangeCheckbox = (value) => {
     setCategory(value);
+  };
+  const onChangeCheckboxBrand = (value) => {
+    setBrand(value);
+  };
+  const onChangeCheckboxPrice = (value) => {
+    setPrice(value);
   };
 
   return (
@@ -448,6 +475,62 @@ export default function ProductFilter() {
                                       />
                                       <label className="ml-3 text-sm text-gray-600 cursor-pointer ">
                                         {categoryTitle}
+                                      </label>
+                                    </div>
+                                  ))}
+                                </div>
+                              )}
+
+                              {title === "Brand" && (
+                                <div className="space-y-2">
+                                  {allBrands.map((brandTitle, i) => (
+                                    <div
+                                      key={i}
+                                      className="flex items-center cursor-pointer hover:bg-gray-200 rounded-lg px-3 py-3 active:scale-95 duration-200 active:bg-gray-300"
+                                      onClick={() => {
+                                        filterBrands(brandTitle);
+                                      }}
+                                    >
+                                      <input
+                                        name={brandTitle}
+                                        onChange={() =>
+                                          onChangeCheckboxBrand(brandTitle)
+                                        }
+                                        checked={brandTitle === brand}
+                                        type="checkbox"
+                                        className="h-4 w-4 border-gray-300 rounded text-indigo-600 focus:ring-indigo-500 cursor-pointer "
+                                      />
+                                      <label className="ml-3 text-sm text-gray-600 cursor-pointer ">
+                                        {brandTitle}
+                                      </label>
+                                    </div>
+                                  ))}
+                                </div>
+                              )}
+
+                              {title === "Price" && (
+                                <div className="space-y-2">
+                                  {allPrice.map((priceTitle, i) => (
+                                    <div
+                                      key={i}
+                                      className="flex items-center cursor-pointer hover:bg-gray-200 rounded-lg px-3 py-3 active:scale-95 duration-200 active:bg-gray-300"
+                                      onClick={() => {
+                                        filterPrice(priceTitle.label);
+                                      }}
+                                    >
+                                      <input
+                                        name={priceTitle.label}
+                                        checked={priceTitle.label === price}
+                                        onChange={() =>
+                                          onChangeCheckboxPrice(
+                                            priceTitle.label
+                                          )
+                                        }
+                                        type="checkbox"
+                                        className="h-4 w-4 border-gray-300 rounded text-indigo-600 focus:ring-indigo-500 cursor-pointer "
+                                      />
+                                      <label className="ml-3 text-sm text-gray-600 cursor-pointer ">
+                                        {priceTitle.label}
                                       </label>
                                     </div>
                                   ))}
