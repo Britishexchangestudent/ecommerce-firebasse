@@ -13,7 +13,7 @@ export default function Product({ products }) {
           {products?.map((product) => (
             <div
               key={product?.id}
-              className="relative bg-white border border-gray-200 shadow-md rounded-lg flex flex-col overflow-hidden cursor-pointer"
+              className="relative bg-white border px-3 py-5 border-gray-200 shadow-md rounded-lg flex flex-col overflow-hidden cursor-pointer"
             >
               <div
                 className="aspect-w-3 aspect-h-4 bg-transparent hover:opacity-75 duration-300 sm:aspect-none sm:h-96  border-b border-gray-100"
@@ -49,7 +49,7 @@ export default function Product({ products }) {
                   <div className="mt-4">
                     <button
                       type="submit"
-                      className="w-full bg-indigo-600 shadow-lg border border-transparent rounded-md py-3 px-8 z-10 flex items-center justify-center text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-50 focus:ring-indigo-500"
+                      className="w-full bg-indigo-600 shadow-lg border border-transparent rounded-md py-3 px-8 z-10 flex items-center justify-center text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-50 focus:ring-indigo-500 duration-300 cursor-pointer"
                     >
                       Add to bag
                     </button>

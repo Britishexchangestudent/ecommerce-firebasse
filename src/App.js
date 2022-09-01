@@ -9,19 +9,17 @@ import { useSelector } from "react-redux";
 
 function App() {
   const isLoggedIn = useSelector(selectIsLoggedIn);
-  console.log(`isLoggedIn`, isLoggedIn)
+  console.log(`isLoggedIn`, isLoggedIn);
   return (
     <div className="bg-white w-full overflow-hidden">
       <BrowserRouter>
         <ToastContainer />
 
-        {isLoggedIn && (
-          <div className="flex justify-center items-center sm:px-16 px-6">
-            <div className="xl:max-w-[1280px] w-full">
-              <Navbar />
-            </div>
+        <div className="flex justify-center items-center sm:px-16 px-6">
+          <div className="xl:max-w-[1280px] w-full">
+            <Navbar />
           </div>
-        )}
+        </div>
 
         <Routes>
           <Route path="/" element={<Home />} />

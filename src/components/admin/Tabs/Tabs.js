@@ -55,7 +55,7 @@ function Tabs() {
       navigate("view-products");
     } else if (navType === "Add Product") {
       setValue("add-product");
-      navigate("add-product");
+      navigate("add-product/ADD");
     } else if (navType === "View Orders") {
       setValue("view-orders");
       navigate("view-orders");
