@@ -25,7 +25,6 @@ function Login() {
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
 
-
   const navigator = useNavigate();
 
   const handleLogin = (e) => {
@@ -82,7 +81,7 @@ function Login() {
         </AnimatePresence>
         <div className="grid grid-cols-1 sm:grid-cols-12">
           <div className="h-screen bg-white col-span-6 flex flex-col justify-center align-center">
-            <div className="mt-8 mx-4 md:mx-28">
+            <div className="-mt-28 mx-4 md:mx-28">
               <div>
                 <div>
                   <p className="text-lg font-medium text-primaryText flex justify-center pb-6">

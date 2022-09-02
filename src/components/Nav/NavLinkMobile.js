@@ -1,6 +1,7 @@
 import React from "react";
 
-function NavLinkMobile({ active, setActive, navigateTo, title }) {
+function NavLinkMobile({ active, setActive, navigateTo, title, toggle,
+  setToggle }) {
   return (
     <li
       className={`font-poppins font-medium cursor-pointer text-[16px] group hover:text-primaryPurple duration-200 relative ${
@@ -9,6 +10,7 @@ function NavLinkMobile({ active, setActive, navigateTo, title }) {
       onClick={() => {
         setActive(title);
         navigateTo(title);
+        setToggle(!toggle);
       }}
     >
       <p>{title}</p>

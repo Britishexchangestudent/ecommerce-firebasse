@@ -34,10 +34,8 @@ function Navbar() {
           const u1 = user.email.split("@");
           const tmpUserName = u1[0];
           setUsername(tmpUserName);
-
         } else {
           setUsername(user.displayName);
-
         }
 
         dispatch(
@@ -45,9 +43,7 @@ function Navbar() {
             email: user.email,
             userName: user.displayName ? user.displayName : username,
             userId: user.uid,
-          }),
-
-
+          })
         );
       } else {
         setUsername("");
@@ -100,14 +96,12 @@ function Navbar() {
         </h1>
 
         <ul className="list-none sm:flex hidden justify-end items-center flex-1">
-          {isLoggedIn && (
-            <NavLink
-              active={active}
-              setActive={setActive}
-              navigateTo={navigateTo}
-              title="Home"
-            />
-          )}
+          <NavLink
+            active={active}
+            setActive={setActive}
+            navigateTo={navigateTo}
+            title="Home"
+          />
           <AdminOnlyLink>
             <NavLink
               active={active}
@@ -116,6 +110,20 @@ function Navbar() {
               title="Admin"
             />
           </AdminOnlyLink>
+          {isLoggedIn && (
+            <NavLink
+              active={active}
+              setActive={setActive}
+              navigateTo={navigateTo}
+              title="Orders"
+            />
+          )}
+          <NavLink
+            active={active}
+            setActive={setActive}
+            navigateTo={navigateTo}
+            title="Products"
+          />
           {!isLoggedIn && (
             <NavLink
               active={active}
@@ -124,18 +132,6 @@ function Navbar() {
               title="Login"
             />
           )}
-          <NavLink
-            active={active}
-            setActive={setActive}
-            navigateTo={navigateTo}
-            title="Orders"
-          />
-          <NavLink
-            active={active}
-            setActive={setActive}
-            navigateTo={navigateTo}
-            title="Products"
-          />
           {isLoggedIn && (
             <NavLink
               active={active}
@@ -144,12 +140,14 @@ function Navbar() {
               title="Logout"
             />
           )}
-          <NavLink
-            active={active}
-            setActive={setActive}
-            navigateTo={navigateTo}
-            title="Cart"
-          />
+          {isLoggedIn && (
+            <NavLink
+              active={active}
+              setActive={setActive}
+              navigateTo={navigateTo}
+              title="Cart"
+            />
+          )}
         </ul>
 
         <div className="sm:hidden flex flex-1 justify-end items-center">
@@ -171,33 +169,42 @@ function Navbar() {
             } p-6 bg-white shadow-lg absolute top-20 right-0 mx-4 my-2 min-w-[140px] rounded-xl sidebar z-50`}
           >
             <ul className="list-none flex justify-end items-start flex-1 flex-col">
-              {isLoggedIn && (
-                <NavLinkMobile
-                  active={active}
-                  setActive={setActive}
-                  navigateTo={navigateTo}
-                  title={`Hi, ${username}`}
-                />
-              )}
+              <NavLinkMobile
+                active={active}
+                setActive={setActive}
+                navigateTo={navigateTo}
+                title="Home"
+                toggle={toggle}
+                setToggle={setToggle}
+              />
+
               <AdminOnlyLink>
                 <NavLinkMobile
                   active={active}
                   setActive={setActive}
                   navigateTo={navigateTo}
                   title="Admin"
+                  toggle={toggle}
+                  setToggle={setToggle}
                 />
               </AdminOnlyLink>
-              <NavLinkMobile
-                active={active}
-                setActive={setActive}
-                navigateTo={navigateTo}
-                title="Orders"
-              />
+              {isLoggedIn && (
+                <NavLinkMobile
+                  active={active}
+                  setActive={setActive}
+                  navigateTo={navigateTo}
+                  title="Orders"
+                  toggle={toggle}
+                  setToggle={setToggle}
+                />
+              )}
               <NavLinkMobile
                 active={active}
                 setActive={setActive}
                 navigateTo={navigateTo}
                 title="Products"
+                toggle={toggle}
+                setToggle={setToggle}
               />
               {!isLoggedIn && (
                 <NavLinkMobile
@@ -205,6 +212,8 @@ function Navbar() {
                   setActive={setActive}
                   navigateTo={navigateTo}
                   title="Login"
+                  toggle={toggle}
+                  setToggle={setToggle}
                 />
               )}
               {isLoggedIn && (
@@ -213,14 +222,20 @@ function Navbar() {
                   setActive={setActive}
                   navigateTo={navigateTo}
                   title="Logout"
+                  toggle={toggle}
+                  setToggle={setToggle}
                 />
               )}
-              <NavLinkMobile
-                active={active}
-                setActive={setActive}
-                navigateTo={navigateTo}
-                title="Cart"
-              />
+              {isLoggedIn && (
+                <NavLinkMobile
+                  active={active}
+                  setActive={setActive}
+                  navigateTo={navigateTo}
+                  title="Cart"
+                  toggle={toggle}
+                  setToggle={setToggle}
+                />
+              )}
             </ul>
           </div>
         </div>
