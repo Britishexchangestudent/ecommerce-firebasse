@@ -417,15 +417,16 @@ export default function ProductFilter() {
                   {loading ? null : filteredProducts.length === 0 ? (
                     <EmptyProduct />
                   ) : (
-                    <Product products={currentProducts} />
+                    <>
+                      <Product products={currentProducts} />
+                      <Pagination
+                        productsPerPage={productsPerPage}
+                        currentPage={currentPage}
+                        setCurrentPage={setCurrentPage}
+                        totalProducts={filteredProducts.length}
+                      />
+                    </>
                   )}
-
-                  <Pagination
-                    productsPerPage={productsPerPage}
-                    currentPage={currentPage}
-                    setCurrentPage={setCurrentPage}
-                    totalProducts={filteredProducts.length}
-                  />
                 </motion.div>
               </div>
             </section>
