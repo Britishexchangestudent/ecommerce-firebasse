@@ -16,7 +16,7 @@ import {
 } from "../../redux/slice/productSlice";
 import { useDispatch, useSelector } from "react-redux";
 import useFetchCollection from "../../hooks/useFetchCollection";
-import { Loader } from "../../components";
+import { Loader, Pagination } from "../../components";
 import {
   FILTER_BY_BRAND,
   FILTER_BY_PRICE,
@@ -58,8 +58,19 @@ export default function ProductFilter() {
   const [brand, setBrand] = useState("All");
   const [price, setPrice] = useState("All");
   const [showSearch, setShowSearch] = useState(false);
-
   const filteredProducts = useSelector(selectFilteredProducts);
+
+  // pagination states
+  const [currentPage, setCurrentPage] = useState(1);
+  const [productsPerPage, setProductsPerPage] = useState(3);
+
+  // get current products
+  const indexOfLastProduct = currentPage * productsPerPage;
+  const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
+  const currentProducts = filteredProducts.slice(
+    indexOfFirstProduct,
+    indexOfLastProduct
+  );
 
   const { data, loading } = useFetchCollection("products");
 
@@ -406,8 +417,15 @@ export default function ProductFilter() {
                   {loading ? null : filteredProducts.length === 0 ? (
                     <EmptyProduct />
                   ) : (
-                    <Product products={filteredProducts} />
+                    <Product products={currentProducts} />
                   )}
+
+                  <Pagination
+                    productsPerPage={productsPerPage}
+                    currentPage={currentPage}
+                    setCurrentPage={setCurrentPage}
+                    totalProducts={filteredProducts.length}
+                  />
                 </motion.div>
               </div>
             </section>

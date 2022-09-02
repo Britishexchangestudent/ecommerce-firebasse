@@ -3,6 +3,7 @@ export { default as Footer } from "./Footer/Footer";
 export { default as Perks } from "./Home/Perks";
 export { default as StoreFrontImages } from "./Home/StoreFrontImages";
 export { default as Loader } from "./loader/Loader";
+export { default as Pagination } from "./Pagination/Pagination";
 export { default as Tabs } from "./admin/Tabs/Tabs";
 export { default as AddProducts } from "./admin/AddProducts/AddProducts";
 export { default as Home } from "./admin/Home/Home";
