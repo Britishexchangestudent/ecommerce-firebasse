@@ -5,27 +5,7 @@ import { db } from "../../firebase/config";
 import { BiArrowBack } from "react-icons/bi";
 import { toast } from "react-toastify";
 
-/*
-  This example requires Tailwind CSS v2.0+ 
-  
-  This example requires some changes to your config:
-  
-  ```
-  // tailwind.config.js
-  module.exports = {
-    // ...
-    plugins: [
-      // ...
-      require('@tailwindcss/aspect-ratio'),
-    ],
-  }
-  ```
-*/
-import {
-  CheckIcon,
-  QuestionMarkCircleIcon,
-  StarIcon,
-} from "@heroicons/react/solid";
+import { CheckIcon, StarIcon } from "@heroicons/react/solid";
 import { ShieldCheckIcon } from "@heroicons/react/outline";
 import Reviews from "./Reviews";
 import { selectEmail } from "../../redux/slice/authSlice";
@@ -174,11 +154,11 @@ function ProductDetails() {
                   type="submit"
                   className="w-full bg-indigo-600 border border-transparent rounded-md py-3 px-8 flex items-center justify-center text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-50 focus:ring-indigo-500"
                 >
-                  Add to bag
+                  Add to Cart
                 </button>
               </div>
               <div className="mt-6 text-center">
-                <a href="#" className="group inline-flex text-base font-medium">
+                <p className="group inline-flex text-base font-medium">
                   <ShieldCheckIcon
                     className="flex-shrink-0 mr-2 h-6 w-6 text-gray-400 group-hover:text-gray-500"
                     aria-hidden="true"
@@ -186,7 +166,7 @@ function ProductDetails() {
                   <span className="text-gray-500 hover:text-gray-700">
                     Lifetime Guarantee
                   </span>
-                </a>
+                </p>
               </div>
             </form>
           </section>

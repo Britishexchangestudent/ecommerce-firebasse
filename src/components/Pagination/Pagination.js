@@ -25,6 +25,7 @@ function Pagination({
   // paginate
   const paginate = (pageNumber) => {
     setCurrentPage(pageNumber);
+    window.scrollTo(0, 100);
   };
 
   // next page
@@ -35,11 +36,15 @@ function Pagination({
       setMaxPageNumberLimit(maxPageNumberLimit + pageNumberLimit);
       setMinPageNumberLimit(minPageNumberLimit + pageNumberLimit);
     }
+
+    window.scrollTo(0, 100);
   };
 
   // previous page
   const paginatePrev = () => {
     setCurrentPage(currentPage - 1);
+
+    window.scrollTo(0, 100);
   };
 
   return (

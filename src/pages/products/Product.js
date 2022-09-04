@@ -1,8 +1,18 @@
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
+import { ADD_TO_CART, selectCart } from "../../redux/slice/cartSlice";
+import { useSelector, useDispatch } from "react-redux";
 
 export default function Product({ products }) {
   const navigate = useNavigate();
+
+  const cart = useSelector(selectCart);
+
+  const dispatch = useDispatch();
+
+  const addToCart = (product) => {
+    dispatch(ADD_TO_CART(product));
+  };
 
   return (
     <motion.div layout className="bg-white">
@@ -48,10 +58,12 @@ export default function Product({ products }) {
                   </p>
                   <div className="mt-4">
                     <button
-                      type="submit"
+                      onClick={() => {
+                        addToCart(product);
+                      }}
                       className="w-full bg-indigo-600 shadow-lg border border-transparent rounded-md py-3 px-8 z-10 flex items-center justify-center text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-50 focus:ring-indigo-500 duration-300 cursor-pointer"
                     >
-                      Add to bag
+                      Add to Cart
                     </button>
                   </div>
                 </div>
