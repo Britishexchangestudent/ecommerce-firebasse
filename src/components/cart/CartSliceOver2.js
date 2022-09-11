@@ -9,9 +9,13 @@ import {
   DECREASE_CART,
   EMPTY_CART_ITEMS,
   REMOVE_FROM_CART,
+  SAVE_URL,
   selectCartItems,
 } from "../../redux/slice/cartSlice";
 import EmptyCart from "./EmptyCart";
+import { selectIsLoggedIn } from "../../redux/slice/authSlice";
+import { useNavigate } from "react-router";
+import { useEffect } from "react";
 
 const card = {
   hidden: { opacity: 0, scale: 0.8 },
@@ -32,7 +36,11 @@ export default function CartSlideOver2({ open, setOpen }) {
     return initial + obj.price * obj?.cartQuantity;
   }, 0);
 
+  const navigate = useNavigate();
+
   const dispatch = useDispatch();
+
+  const loggedIn = useSelector(selectIsLoggedIn);
 
   const increaseQuantity = (product) => {
     dispatch(ADD_TO_CART(product));
@@ -47,6 +55,21 @@ export default function CartSlideOver2({ open, setOpen }) {
 
   const emptyCart = () => {
     dispatch(EMPTY_CART_ITEMS());
+  };
+
+  useEffect(() => {
+    dispatch(SAVE_URL(""));
+  }, [dispatch, cartItems]);
+
+
+  const checkout = () => {
+    setOpen(false);
+    if (loggedIn) {
+      navigate("/checkout");
+    } else {
+      dispatch(SAVE_URL("checkout"));
+      navigate("/login");
+    }
   };
 
   return (
@@ -216,7 +239,10 @@ export default function CartSlideOver2({ open, setOpen }) {
                         >
                           Empty Cart
                         </p>
-                        <p className="flex cursor-pointer justify-center items-center px-6 py-3 border border-transparent rounded-md shadow-md text-base font-medium text-white bg-indigo-600 hover:bg-indigo-700 duration-200 hover:-translate-y-1">
+                        <p
+                          onClick={() => checkout()}
+                          className="flex cursor-pointer justify-center items-center px-6 py-3 border border-transparent rounded-md shadow-md text-base font-medium text-white bg-indigo-600 hover:bg-indigo-700 duration-200 hover:-translate-y-1"
+                        >
                           Check out
                         </p>
                       </div>

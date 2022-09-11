@@ -7,6 +7,7 @@ const initialState = {
     : [],
   cartTotalQuantity: 0,
   cartTotalPrice: 0,
+  previousURL: "",
 };
 
 const cartSlice = createSlice({
@@ -68,6 +69,10 @@ const cartSlice = createSlice({
       localStorage.setItem("cartItems", JSON.stringify(state.cartItems));
       toast.success("Your cart has been emptied", { position: "top-left" });
     },
+    SAVE_URL: (state, action) => {
+      console.log(`action.payload`, action.payload);
+      state.previousURL = action.payload;
+    },
   },
 });
 
@@ -76,10 +81,12 @@ export const {
   DECREASE_CART,
   REMOVE_FROM_CART,
   EMPTY_CART_ITEMS,
+  SAVE_URL,
 } = cartSlice.actions;
 
 export const selectCartItems = (state) => state.cart.cartItems;
 export const selectCartTotalQuantity = (state) => state.cart.cartTotalQuantity;
 export const selectCartTotalPrice = (state) => state.cart.cartTotalPrice;
+export const selectPreviousURL = (state) => state.cart.previousURL;
 
 export default cartSlice.reducer;

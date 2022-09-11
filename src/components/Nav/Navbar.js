@@ -148,15 +148,14 @@ function Navbar() {
               title="Logout"
             />
           )}
-          {isLoggedIn && (
-            <NavLink
-              active={active}
-              setActive={setActive}
-              navigateTo={navigateTo}
-              title="Cart"
-              setOpen={setOpen}
-            />
-          )}
+
+          <NavLink
+            active={active}
+            setActive={setActive}
+            navigateTo={navigateTo}
+            title="Cart"
+            setOpen={setOpen}
+          />
         </ul>
 
         <div className="sm:hidden flex flex-1 justify-end items-center">

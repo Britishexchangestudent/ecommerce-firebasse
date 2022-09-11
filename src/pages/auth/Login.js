@@ -16,6 +16,8 @@ import ClipLoader from "react-spinners/ClipLoader";
 import { toast } from "react-toastify";
 
 import { useNavigate } from "react-router-dom";
+import { selectPreviousURL } from "../../redux/slice/cartSlice";
+import { useSelector } from "react-redux";
 
 function Login() {
   const [registerModal, setRegisterModal] = useState(false);
@@ -25,7 +27,15 @@ function Login() {
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
 
+  const previousURL = useSelector(selectPreviousURL);
   const navigator = useNavigate();
+
+  const redirect = () => {
+    if (previousURL.includes("checkout")) {
+      return navigator("/checkout");
+    }
+    navigator("/");
+  };
 
   const handleLogin = (e) => {
     e.preventDefault();
@@ -35,11 +45,11 @@ function Login() {
       .then((userCredential) => {
         // Signed in
         const user = userCredential.user;
-        console.log(`user`, user);
 
         setTimeout(() => {
           setLoading(false);
           navigator("/");
+          redirect();
         }, 3000);
         // ...
       })
@@ -60,6 +70,7 @@ function Login() {
         console.log(`user`, user);
         toast.success("Logged in successfully.");
         navigator("/");
+        redirect();
         // ...
       })
       .catch((error) => {
