@@ -15,11 +15,17 @@ import {
   selectIsLoggedIn,
 } from "../../redux/slice/authSlice";
 import { AdminOnlyLink } from "../admin/AdminRoute/AdminRoute";
+import { selectCartItems } from "../../redux/slice/cartSlice";
+import CartSlideOver from "../cart/CartSlideOver";
+import { AnimatePresence } from "framer-motion";
+import CartSlideOver2 from "../cart/CartSliceOver2";
 
 function Navbar() {
   const [active, setActive] = useState("Home");
   const [toggle, setToggle] = useState(false);
   const [username, setUsername] = useState("");
+
+  const [open, setOpen] = useState(false);
 
   const isLoggedIn = useSelector(selectIsLoggedIn);
 
@@ -78,12 +84,14 @@ function Navbar() {
     } else if (navType === "Orders") {
       navigator("/");
     } else if (navType === "Cart") {
-      navigator("/");
     }
   };
 
   return (
     <>
+      <AnimatePresence>
+        {open && <CartSlideOver2 open={open} setOpen={setOpen} />}
+      </AnimatePresence>
       <nav className="w-full flex py-6 justify-between items-center navbar">
         <h1
           className="text-3xl font-extrabold text-primaryPurple cursor-pointer"
@@ -146,6 +154,7 @@ function Navbar() {
               setActive={setActive}
               navigateTo={navigateTo}
               title="Cart"
+              setOpen={setOpen}
             />
           )}
         </ul>

@@ -9,7 +9,8 @@ import { CheckIcon, StarIcon } from "@heroicons/react/solid";
 import { ShieldCheckIcon } from "@heroicons/react/outline";
 import Reviews from "./Reviews";
 import { selectEmail } from "../../redux/slice/authSlice";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { ADD_TO_CART } from "../../redux/slice/cartSlice";
 
 const reviews = { average: 4, totalCount: 1624 };
 
@@ -21,6 +22,8 @@ function ProductDetails() {
   const email = useSelector(selectEmail);
 
   const navigate = useNavigate();
+
+  const dispatch = useDispatch();
 
   const isAdmin = email === "danialahmed.dev@gmail.com" ? true : false;
 
@@ -49,6 +52,10 @@ function ProductDetails() {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
+
+  const addToCart = (product) => {
+    dispatch(ADD_TO_CART(product));
+  };
 
   return (
     <div className="bg-white">
@@ -148,27 +155,25 @@ function ProductDetails() {
               Product options
             </h2>
 
-            <form>
-              <div className="mt-10">
-                <button
-                  type="submit"
-                  className="w-full bg-indigo-600 border border-transparent rounded-md py-3 px-8 flex items-center justify-center text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-50 focus:ring-indigo-500"
-                >
-                  Add to Cart
-                </button>
-              </div>
-              <div className="mt-6 text-center">
-                <p className="group inline-flex text-base font-medium">
-                  <ShieldCheckIcon
-                    className="flex-shrink-0 mr-2 h-6 w-6 text-gray-400 group-hover:text-gray-500"
-                    aria-hidden="true"
-                  />
-                  <span className="text-gray-500 hover:text-gray-700">
-                    Lifetime Guarantee
-                  </span>
-                </p>
-              </div>
-            </form>
+            <div className="mt-10">
+              <button
+                onClick={() => addToCart(product)}
+                className="w-full bg-indigo-600 border border-transparent rounded-md py-3 px-8 flex items-center justify-center text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-50 focus:ring-indigo-500"
+              >
+                Add to Cart
+              </button>
+            </div>
+            <div className="mt-6 text-center">
+              <p className="group inline-flex text-base font-medium">
+                <ShieldCheckIcon
+                  className="flex-shrink-0 mr-2 h-6 w-6 text-gray-400 group-hover:text-gray-500"
+                  aria-hidden="true"
+                />
+                <span className="text-gray-500 hover:text-gray-700">
+                  Lifetime Guarantee
+                </span>
+              </p>
+            </div>
           </section>
         </div>
       </div>

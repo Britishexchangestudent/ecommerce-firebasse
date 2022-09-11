@@ -1,12 +1,12 @@
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
-import { ADD_TO_CART, selectCart } from "../../redux/slice/cartSlice";
+import { ADD_TO_CART, selectCartItems } from "../../redux/slice/cartSlice";
 import { useSelector, useDispatch } from "react-redux";
 
 export default function Product({ products }) {
   const navigate = useNavigate();
 
-  const cart = useSelector(selectCart);
+  const cart = useSelector(selectCartItems);
 
   const dispatch = useDispatch();
 

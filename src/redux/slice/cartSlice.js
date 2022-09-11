@@ -14,7 +14,6 @@ const cartSlice = createSlice({
   initialState,
   reducers: {
     ADD_TO_CART: (state, actions) => {
-      console.log(`actions.payload`, actions.payload);
       const productIndex = state.cartItems.findIndex(
         (item) => item.id === actions.payload.id
       );
@@ -33,12 +32,53 @@ const cartSlice = createSlice({
       // save cart to localStorage
       localStorage.setItem("cartItems", JSON.stringify(state.cartItems));
     },
+
+    DECREASE_CART: (state, action) => {
+      const productIndex = state.cartItems.findIndex(
+        (item) => item.id === action.payload.id
+      );
+
+      if (state.cartItems[productIndex].cartQuantity > 1) {
+        state.cartItems[productIndex].cartQuantity -= 1;
+      } else if (state.cartItems[productIndex].cartQuantity === 1) {
+        const newCartItems = state.cartItems.filter(
+          (item) => item.id !== action.payload.id
+        );
+        state.cartItems = newCartItems;
+        toast.success("Product removed from cart", { position: "top-left" });
+      }
+
+      localStorage.setItem("cartItems", JSON.stringify(state.cartItems));
+    },
+
+    REMOVE_FROM_CART: (state, action) => {
+      const newCartItems = state.cartItems.filter(
+        (item) => item.id !== action.payload.id
+      );
+
+      state.cartItems = newCartItems;
+
+      toast.success("Product removed from cart", { position: "top-left" });
+
+      localStorage.setItem("cartItems", JSON.stringify(state.cartItems));
+    },
+
+    EMPTY_CART_ITEMS: (state, action) => {
+      state.cartItems = [];
+      localStorage.setItem("cartItems", JSON.stringify(state.cartItems));
+      toast.success("Your cart has been emptied", { position: "top-left" });
+    },
   },
 });
 
-export const { ADD_TO_CART } = cartSlice.actions;
+export const {
+  ADD_TO_CART,
+  DECREASE_CART,
+  REMOVE_FROM_CART,
+  EMPTY_CART_ITEMS,
+} = cartSlice.actions;
 
-export const selectCart = (state) => state.cart.cartItems;
+export const selectCartItems = (state) => state.cart.cartItems;
 export const selectCartTotalQuantity = (state) => state.cart.cartTotalQuantity;
 export const selectCartTotalPrice = (state) => state.cart.cartTotalPrice;
 
